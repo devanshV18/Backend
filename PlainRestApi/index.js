@@ -15,7 +15,7 @@ const server = http.createServer(async (req, res) => {
 
     if(req.method == "GET"){
         //by default response code is 200
-        res.end("Get request received")
+        // res.end("Get request received")
     }
     else if(req.method == "POST"){
         //adding a custom response code
