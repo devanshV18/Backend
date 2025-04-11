@@ -20,7 +20,7 @@ const server = http.createServer(async (req, res) => {
     else if(req.method == "POST"){
         //adding a custom response code
         res.writeHead(201)
-        res.end("Post request received")
+        // res.end("Post request received")
     }else {
         res.end("Hello world")//the response is a plain simple string for any request other than get and post
     }
