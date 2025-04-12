@@ -1,1 +1,2 @@
 Typescript is converted to js in runtime by type checking and then run as js
+for even better security and scaled usecase env vars are stored in separate cloud amchines using tech like azure key walt awazon keyword etc

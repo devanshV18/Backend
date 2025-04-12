@@ -1,5 +1,5 @@
 import express from "express"
-import loadenv from "./config"
+import {serverConfig} from "./config"
 
 const app = express() //implicitly app is of type express.Application 
 
@@ -9,10 +9,8 @@ app.get('/ping', (req,res) => {
     res.send("Ping")
 })
 
-    loadenv()
-    console.log("Env vars loaded")
-
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${process.env.PORT}`)
+ 
+app.listen(serverConfig.PORT, () => {
+    console.log(`Server is running on ${serverConfig.PORT}`)
     console.log("Press CTRL + C to stop the server")
 })
