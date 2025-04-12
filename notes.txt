@@ -1,0 +1,1 @@
+Typescript is converted to js in runtime by type checking and then run as js
