@@ -7,5 +7,5 @@ export const pingHandler = (req: Request,res: Response) :void => {
 }
 
 export const pingHealthHandler = (req: Request, res: Response) :void => {
-    res.status(200).send("Ping Health Check")
+    res.status(200).send("Ping Health Check Done!")
 }

@@ -7,6 +7,10 @@ import v2router from "./routers/v2"
 
 const app = express() //implicitly app is of type express.Application 
 
+app.use(express.json()) //this is used to parse the incoming request with JSON payloads. It is based on body-parser. The body-parser package is a middleware that parses incoming request bodies in a middleware before your handlers, available under the req.body property. It parses the text as JSON and exposes the resulting object on req.body.
+app.use(express.urlencoded({extended: true})) //this is used to parse the incoming request with url encoded payloads. The extended option allows for rich objects and arrays to be encoded into the URL-encoded format, allowing for a JSON-like experience with URL-encoded. If false, it will use the querystring library (when `false`), or the qs library (when `true`) for parsing.
+app.use(express.text())
+
 // const PORT:number = 3004 //explicit type definition other than this POR automatically assumes the type of PORT as the type od data you are assigning to it
 
 
@@ -19,5 +23,5 @@ app.use('/api/v2', v2router)
  
 app.listen(serverConfig.PORT, () => {
     console.log(`Server is running on ${serverConfig.PORT}`)
-    console.log("Press CTRL + C to stop the server")
+    console.log("Press CTRL + C to stop the server!")
 })
