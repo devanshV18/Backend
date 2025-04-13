@@ -1,7 +1,9 @@
 import express from "express"
 import {serverConfig} from "./config"
 // import { pingHandler } from "./controllers/ping.controller"
-import pingRouter from "./routers/ping.router"
+// import pingRouter from "./routers/ping.router"
+import v1router from "./routers/v1"
+import v2router from "./routers/v2"
 
 const app = express() //implicitly app is of type express.Application 
 
@@ -11,7 +13,8 @@ const app = express() //implicitly app is of type express.Application
 //NOTE - When we are handling the request inside the get function directly be defining the callback here itself, typescript is able to implicitly understand the type of req, res parameter
 
 //connecting my all registered routes to the server/app instance
-app.use(pingRouter)
+app.use('/api/v1', v1router)
+app.use('/api/v2', v2router)
 
  
 app.listen(serverConfig.PORT, () => {

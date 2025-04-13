@@ -5,3 +5,7 @@ import { Request, Response } from "express"
 export const pingHandler = (req: Request,res: Response) :void => {
     res.send('Ping Check')
 }
+
+export const pingHealthHandler = (req: Request, res: Response) :void => {
+    res.status(200).send("Ping Health Check")
+}
