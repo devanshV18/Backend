@@ -6,7 +6,7 @@ type ServerConfig = {
 }
 
 function loadenv(){
-    dotenv.config() //loads all env vraibles
+    dotenv.config() //loads all env vraibles into current session
     console.log("Env vars loaded")
 }
 
