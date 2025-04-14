@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { pingHandler, pingHealthHandler } from '../../controllers/ping.controller';
 
 const pingRouter = express.Router()
@@ -27,7 +27,19 @@ const pingRouter = express.Router()
 
 //MIDDLEWARE DEMO ABOVE
 
-pingRouter.get('/', pingHandler)
+
+//AN EXAMPLE OF VALIDATION MIDDLEWARE MANUALLY BELOW
+// function checkBody(req: Request, res: Response, next:NextFunction):void{
+//     if(typeof req.body.name !== "string"){
+//         res.status(400).send("Name must be a string")
+//     }
+//     next()
+// } 
+//AN EXAMPLE OF VALIDATION MIDDLEWARE MANUALLY ABOVE
+
+//FOR EFFICIENCY AND IN PROFESSIONAL USECASE WE USE VALIDATION LIBRARY INSTEAD OF MANUAL VALIDATION
+
+pingRouter.get('/:userid/comments', pingHandler)
 pingRouter.get('/health', pingHealthHandler)
 
 
