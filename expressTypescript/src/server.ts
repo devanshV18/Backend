@@ -4,6 +4,7 @@ import {serverConfig} from "./config"
 // import pingRouter from "./routers/ping.router"
 import v1router from "./routers/v1"
 import v2router from "./routers/v2"
+// import { z } from "zod"
 
 const app = express() //implicitly app is of type express.Application 
 
@@ -24,4 +25,18 @@ app.use('/api/v2', v2router)
 app.listen(serverConfig.PORT, () => {
     console.log(`Server is running on ${serverConfig.PORT}`)
     console.log("Press CTRL + C to stop the server!")
+
+    // const obj = {
+    //     name: "Devansh",
+    //     age: 22
+    // } //object to be tested
+
+    // //defing a zod schema
+    // const objSchema = z.object({
+    //     name: z.string(),
+    //     age: z.number().int().positive()
+    // })
+
+    // //validating -> if validation is successful, it prints the obja nd if not throws an error
+    // console.log(objSchema.parse(obj))
 })

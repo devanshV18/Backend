@@ -2,3 +2,9 @@ Typescript is converted to js in runtime by type checking and then run as js
 for even better security and scaled usecase env vars are stored in separate cloud amchines using tech like azure key walt awazon keyword etc
 
 Inherently there is no typesafety in json which is flexible if working with js or python, but not being typesafe creates a problem -> we cant enforce our rules/contracts while building REST APIs so the workaround is we use a validation layer in the enhanced MVC -> it validates the req data -> we can write validation layer in express js as middlewares.
+
+zod works using two parameters -> req object/object (may be a static data or something coming from over the network) and a schema that defines what are the expectations or what should the object passed should look like, zod then processes and tells if the passed object satisfies the expectation with schema or not.
+
+Long story short - zod is a simple lib that can validate an incoming value absed on your expectations.
+
+VVI -> also to do the parsing in a non blocking way in zod we can use asyncaprse function with the await keyword to make the code non blocking.
