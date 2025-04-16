@@ -4,6 +4,7 @@ import {serverConfig} from "./config"
 // import pingRouter from "./routers/ping.router"
 import v1router from "./routers/v1"
 import v2router from "./routers/v2"
+import { genericErrorHandler } from "./middlewares/error.middleware"
 // import { z } from "zod"
 
 const app = express() //implicitly app is of type express.Application 
@@ -20,6 +21,11 @@ app.use(express.text())
 //connecting my all registered routes to the server/app instance
 app.use('/api/v1', v1router)
 app.use('/api/v2', v2router)
+
+
+//we place our custom error handler (if any) right below all the routes and above app.listen to make sure express injects our custom error handler instead of default one at the end of middleware stack.
+
+app.use(genericErrorHandler )
 
  
 app.listen(serverConfig.PORT, () => {

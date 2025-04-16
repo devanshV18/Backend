@@ -97,13 +97,36 @@ export const pingHealthHandler = async(req: Request, res: Response) :Promise<voi
 //the below code also works to handle asyn errors in a manual and custom way without calling express default error handler. but we should write a more modular code to make changes in a single place.
 
 //at line 7, the promise got rejected(since there is no file named as sample) -> we jump inside catch block and below that a response is also sent.
+
+// export const pingHandler = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
+//     try {
+//        await fs.readFile("sample")
+//        res.status(200).json({message: "pongg"})
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({messae: "Internal Server Error"})
+//     }
+// }
+
+
+//custom error handling -> comment all pingHandlers above
+
 export const pingHandler = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
     try {
        await fs.readFile("sample")
        res.status(200).json({message: "pongg"})
     } catch (error) {
-        console.log(error)
-        res.status(500).json({messae: "Internal Server Error"})
+        next(error) //calls the custom error middleware if we have placed one in server.ts else calls the default error handler.
     }
 }
 
+
+
+//NOTE -> IN EXPRESS 5, in an async operation whenever a promise is rejected at the await line it automatically calls the error handling middleware -> calls the default one if we haven't placed our custom middleware and calls the custom middleware if we have placed a custom middleware in the server.ts
+
+export const pingHandlerFeature = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
+    
+    await fs.readFile("sample") //this line automatically calls next upon a promise getting rejected.
+    res.status(200).json({message: "pongg"})
+
+}
