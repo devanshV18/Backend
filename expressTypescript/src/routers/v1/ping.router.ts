@@ -43,7 +43,7 @@ const pingRouter = express.Router()
 
 pingRouter.get('/:userid/comments',validateRequest(pingSchema), validateQueryParams(pingSchema), pingHandler) //on the fly middleware concept -> a generalised fxn that takes diff schema and validates our request body
 
-pingRouter.get('/', pingHandler)
+pingRouter.get('/', validateRequest(pingSchema), pingHandler)
 pingRouter.get('/health', pingHealthHandler)
 
 

@@ -8,3 +8,5 @@ zod works using two parameters -> req object/object (may be a static data or som
 Long story short - zod is a simple lib that can validate an incoming value absed on your expectations.
 
 VVI -> also to do the parsing in a non blocking way in zod we can use asyncaprse function with the await keyword to make the code non blocking.
+
+In Express, the expectation of express is that in the set of middlewares till the terminal controller for a particular route/request,all the middlewares handlers should return void i.e. nothing should be returned rather we either call the next() or simply restructure the res obj by calling res. functions which takes care of the response at any point of time.
