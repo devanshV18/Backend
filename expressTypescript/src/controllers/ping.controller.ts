@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response } from "express"
-import fs from "fs"
+import fs from "fs/promises"
 
 
 //NOTE - here since we are handling the CALLBACK INDEPENDENTLY we need to explicitly define the type of req and res parameter -> here we are explicitly defining req and res as Express Request and Express Response respectively and also defined the return type of the function as void
@@ -73,19 +73,37 @@ export const pingHealthHandler = async(req: Request, res: Response) :Promise<voi
 
 //trying the default middleware to handle error -> comment all pingHandler above
 
-//in the below code, the default express handler works to handler our error by calling next(err) and passing the error to the default error handler of express which is defined in the server.ts file. Hence we are not using try catch here as we are not handling the error ourselves but passing it to express default error handler.
+//in the below code, the default express handler works to handle our error by calling next(err) and passing the error to the default error handler of express which is defined in the server.ts file. Hence we are not using try catch here as we are not handling the error ourselves but passing it to express default error handler.The error handling request follows a default express structuring for response but our server doesn't crash.
  
-export const pingHandler = (req:Request, res:Response, next: NextFunction) :void => {
-    //async flow starts here
-    fs.readFile("samele", (err,data) => {
-        if(err){
-            console.log("Error reading file")
-            next(err) //calling the next mw
-        }
-    })
+// export const pingHandler = (req:Request, res:Response, next: NextFunction) :void => {
+//     //async flow starts here
+//     fs.readFile("samele", (err,data) => {
+//         if(err){
+//             console.log("Error reading file")
+//             next(err) //calling the next mw
+//         }
+//     })
 
-    res.status(200).json({
-        success:true,
-        message:"pong"
-    })
+//     res.status(200).json({
+//         success:true,
+//         message:"pong"
+//     })
+// }
+
+//error handling in async functions using try and catch by concept of promises being resolved or rejected -> comment all ping Hnalder above
+
+//NOTE -> // ⚠️ An async function always returns a promise, an async function always returns a Promise, even if you return a simple value like a number or string—it will be wrapped in a resolved Promise. The try-catch block is used inside the async function to handle errors thrown by await expressions.
+
+//the below code also works to handle asyn errors in a manual and custom way without calling express default error handler. but we should write a more modular code to make changes in a single place.
+
+//at line 7, the promise got rejected(since there is no file named as sample) -> we jump inside catch block and below that a response is also sent.
+export const pingHandler = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
+    try {
+       await fs.readFile("sample")
+       res.status(200).json({message: "pongg"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({messae: "Internal Server Error"})
+    }
 }
+
