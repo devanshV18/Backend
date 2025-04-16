@@ -1,19 +1,41 @@
-//making a custom error class in typescript by extending the error object or class in express error
+// src/errors/AppError.ts
 
+export class AppError extends Error {
+  public statusCode: number;
+  public isOperational: boolean;
 
-
-export interface AppError extends Error {
-    statusCode: number
+  constructor(message: string, statusCode: number, isOperational: boolean = true) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+  }
 }
 
-export class InternalServerError implements AppError {
-    name: string
-    message: string
-    statusCode: number
+// 400 - Bad Request
+export class BadRequestError extends AppError {
+  constructor(message = "Bad Request") {
+    super(message, 400);
+  }
+}
 
-    constructor(message: string){
-        this.name = "Internal Server Error"
-        this.statusCode = 500
-        this.message = message || "Internal Server Error"
-    }
+// 401 - Unauthorized
+export class UnauthorizedError extends AppError {
+  constructor(message = "Unauthorized") {
+    super(message, 401);
+  }
+}
+
+// 404 - Not Found
+export class NotFoundError extends AppError {
+  constructor(message = "Resource Not Found") {
+    super(message, 404);
+  }
+}
+
+// 500 - Internal Server Error
+export class InternalServerError extends AppError {
+  constructor(message = "Internal Server Error") {
+    super(message, 500, false); // false = not operational (optional use)
+  }
 }

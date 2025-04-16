@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response } from "express"
 import fs from "fs/promises"
-import { InternalServerError } from "../utils/errors/app.error"
+import { UnauthorizedError } from "../utils/errors/app.error"
 
 
 //NOTE - here since we are handling the CALLBACK INDEPENDENTLY we need to explicitly define the type of req and res parameter -> here we are explicitly defining req and res as Express Request and Express Response respectively and also defined the return type of the function as void
@@ -154,7 +154,7 @@ export const pingHandlerFeature = async(req:Request, res:Response, next: NextFun
         await fs.readFile("sample")  //gets rejected and the flow go to line 143
         res.status(200).json({message : "Hemlo"})
     } catch (error) {
-        throw new InternalServerError("Something went wrong!")
+        throw new UnauthorizedError("Unauthorised !")
 
         //in the above line we are throwing an error object whose type is Internal Server Error which implements AppError -> means it has property of Error class (default props), AppError(statusCode)and InternalServerError(name, message) This error object will be caught by the custom error handler/default error handler middleware in the server.ts file as every InernalServerError is an AppError The thrown error will be accepted by the custom error handler in the err paramenter as its type is already defined as AppError.
 

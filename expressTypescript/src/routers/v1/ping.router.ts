@@ -1,5 +1,5 @@
 import express from 'express';
-import { pingHandler, pingHealthHandler } from '../../controllers/ping.controller';
+import { pingHandler, pingHandlerFeature, pingHealthHandler } from '../../controllers/ping.controller';
 import { validateQueryParams, validateRequest } from '../../validators';
 import { pingSchema } from '../../validators/ping.validators';
 
@@ -43,7 +43,7 @@ const pingRouter = express.Router()
 
 pingRouter.get('/:userid/comments',validateRequest(pingSchema), validateQueryParams(pingSchema), pingHandler) //on the fly middleware concept -> a generalised fxn that takes diff schema and validates our request body
 
-pingRouter.get('/', validateRequest(pingSchema), pingHandler)
+pingRouter.get('/', validateRequest(pingSchema), pingHandlerFeature)
 pingRouter.get('/health', pingHealthHandler)
 
 
