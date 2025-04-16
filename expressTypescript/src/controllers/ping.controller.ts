@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response } from "express"
 import fs from "fs/promises"
+import { InternalServerError } from "../utils/errors/app.error"
 
 
 //NOTE - here since we are handling the CALLBACK INDEPENDENTLY we need to explicitly define the type of req and res parameter -> here we are explicitly defining req and res as Express Request and Express Response respectively and also defined the return type of the function as void
@@ -124,9 +125,41 @@ export const pingHandler = async(req:Request, res:Response, next: NextFunction) 
 
 //NOTE -> IN EXPRESS 5, in an async operation whenever a promise is rejected(Promise fails) at the await line it automatically calls the error handling middleware -> calls the default one if we haven't placed our custom middleware and calls the custom middleware if we have placed a custom middleware in the server.ts
 
+// export const pingHandlerFeature = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
+    
+//     await fs.readFile("sample") //this line automatically calls next upon a promise getting rejected.
+//     res.status(200).json({message: "pongg"})
+
+// }
+
+
+//using the custom error handler using throw keyword and making it one level more custom -> comment all other ping Handler.
+
+// export const pingHandlerFeature = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
+    
+//     try {
+//         await fs.readFile("sample")  //gets rejected and the flow go to line 143
+//         res.status(200).json({message : "Hemlo"})
+//     } catch (error) {
+//         throw new Error("File Not found") //this thrown error will also be caught by the custom error handler middleware in the server.ts file.The thrown error will be accepted by the custom error handler in the err paramenter
+//     }
+// }
+
+
+//using a god custom error handler
+
 export const pingHandlerFeature = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
     
-    await fs.readFile("sample") //this line automatically calls next upon a promise getting rejected.
-    res.status(200).json({message: "pongg"})
+    try {
+        await fs.readFile("sample")  //gets rejected and the flow go to line 143
+        res.status(200).json({message : "Hemlo"})
+    } catch (error) {
+        throw new InternalServerError("Something went wrong!")
 
+        //in the above line we are throwing an error object whose type is Internal Server Error which implements AppError -> means it has property of Error class (default props), AppError(statusCode)and InternalServerError(name, message) This error object will be caught by the custom error handler/default error handler middleware in the server.ts file as every InernalServerError is an AppError The thrown error will be accepted by the custom error handler in the err paramenter as its type is already defined as AppError.
+
+        
+
+
+    }
 }

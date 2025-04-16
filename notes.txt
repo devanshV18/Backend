@@ -10,3 +10,30 @@ Long story short - zod is a simple lib that can validate an incoming value absed
 VVI -> also to do the parsing in a non blocking way in zod we can use asyncaprse function with the await keyword to make the code non blocking.
 
 In Express, the expectation of express is that in the set of middlewares till the terminal controller for a particular route/request,all the middlewares handlers should return void i.e. nothing should be returned rather we either call the next() or simply restructure the res obj by calling res. functions which takes care of the response at any point of time.
+
+interface vs type
+In most of the simple cases interface and type are the same thing which lets us define custom types and contracts explicitly.
+
+But interface has a special use case which can't be done using type -> we can define a type using interface (common), using interface we can extend an existing class or interface and make a new type which has all the properties of the existing class and also some more properties as per our need. (refer utils -> errors -> app.error.ts) Lastly interface also enables us to enforce a contract on a class.
+
+for example -> we create an interface :-
+
+//the interface CreditCard has a function pay.
+interface CreditCard {
+    pay() : void 
+}
+
+//lets suppose we have the below listed existing classes
+
+class mastercardCreditCard{}, class VisaCreditCard {}, class RupayCreditcard {}.
+
+so now usig the interface CreditCard, we can enforce this interface on all the above class for them to have a pay function by following the interface contract, if they dont have one, we get a compile time error in ts.
+
+By doing this we can do something like this -> call pay function for any type of credit card by using a same function`
+
+function f(MasterCard/Visa/RupayCreditCard c){
+    c.pay()
+}
+
+NOTE -> we can also use class in place of interface but interface we can make objects of interface also in ts/js unlike other languages and more importantly interface allows us to imolement polymorphism hence it becomes a better choice
+SEC 17 LIVE 1 (TIMESTAMP : 1:40:00) -> IMPORTANT FOR REVISION (benefits of a ts interface`)
