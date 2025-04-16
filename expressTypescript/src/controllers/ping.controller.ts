@@ -122,7 +122,7 @@ export const pingHandler = async(req:Request, res:Response, next: NextFunction) 
 
 
 
-//NOTE -> IN EXPRESS 5, in an async operation whenever a promise is rejected at the await line it automatically calls the error handling middleware -> calls the default one if we haven't placed our custom middleware and calls the custom middleware if we have placed a custom middleware in the server.ts
+//NOTE -> IN EXPRESS 5, in an async operation whenever a promise is rejected(Promise fails) at the await line it automatically calls the error handling middleware -> calls the default one if we haven't placed our custom middleware and calls the custom middleware if we have placed a custom middleware in the server.ts
 
 export const pingHandlerFeature = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
     
