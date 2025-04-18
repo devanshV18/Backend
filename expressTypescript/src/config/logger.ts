@@ -15,10 +15,19 @@ const logger = winston.createLogger({
         winston.format.json(), //formats our logs which is made up of of all the combined configuration to json
         //the printf function lets us define a custom log printig function where we can include exclude things we want to print in the log from the combined configuration
         winston.format.printf(({timestamp, level, message, ...data}) => {
-            const output = {level,message,data}
-            return JSON.stringify(output)
+            const output = {level,message,timestamp, data}
+            // console.log(output) logging line for understanding purpose and visulisation of our logger object
+            return JSON.stringify(output) //converts the log into a stringified object/JSON for custom printing.
         })
-    )
+    ),
+    //transports is an array to accomodate multiple destinations.
+    transports: [
+        new winston.transports.Console()
+    ]
 })
+
+
+//important scenario -> in production, multiole users will be sending req to the server and hence in whatever destination we decide, we are going to have multiple logs coming in the same time from multiple request. that is for example in a file we might have 2 logs from req 1 and the 3 logs from a parallel request req 2 and then from req 3 and so on etc. So how do we segregate the logs for each request ? => we can use the concept of corelation id.
+//corelation id -> A unique id added to every log of a single request which makes them identifiable to a single request and this corelation id is a unique id generated for each request.
 
 export default logger

@@ -6,6 +6,7 @@ import v1router from "./routers/v1"
 import v2router from "./routers/v2"
 import { genericErrorHandler } from "./middlewares/error.middleware"
 // import { z } from "zod"
+import logger from "./config/logger"
 
 const app = express() //implicitly app is of type express.Application 
 
@@ -30,7 +31,8 @@ app.use(genericErrorHandler )
  
 app.listen(serverConfig.PORT, () => {
     console.log(`Server is running on ${serverConfig.PORT}`)
-    console.log("Press CTRL + C to stop the server!")
+    //the first input is the message and next is the data we want to log. We can pass any number of data to be logged in the log message.
+    logger.info(`Press CTRL + C to stop the server`, {PORT: serverConfig.PORT}) 
 
     // const obj = {
     //     name: "Devansh",
