@@ -164,7 +164,7 @@ export const pingHandler = async(req:Request, res:Response, next: NextFunction) 
 //handler for logger demo -> comment all other pingHandler
 
 export const pingHandlerFeature = async(req:Request, res:Response, next: NextFunction) :Promise<void> => {
-   logger.info("Ping request called", {correlationid : req.headers['x-correlation-id']})
+   logger.info("Ping request called")
    res.status(200).json({
     message: "pong",
     success: true
