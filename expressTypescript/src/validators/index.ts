@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import {AnyZodObject} from "zod"
+import logger from "../config/logger";
 
 
 //schema -> The expectation according to which we want to validate the req body -> Expectations
@@ -8,10 +9,12 @@ import {AnyZodObject} from "zod"
 export const validateRequest = (schema: AnyZodObject) => {
     return async(req: Request, res: Response, next: NextFunction) => {
         try{
+            logger.info("Validating request body", {correlationid : req.headers['x-correlation-id']})
             await schema.parseAsync(req.body)
-            console.log("Validation successfull")
+            logger.info("Validation Successfull", {correlationid : req.headers['x-correlation-id']})
             next()
         }catch(error){
+            logger.info("Validation Failed", {correlationid : req.headers['x-correlation-id']})
             res.status(400).json({
                 message: "Invalid request body",
                 success: false,

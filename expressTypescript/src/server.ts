@@ -7,6 +7,7 @@ import v2router from "./routers/v2"
 import { genericErrorHandler } from "./middlewares/error.middleware"
 // import { z } from "zod"
 import logger from "./config/logger"
+import { attachCorrelationId } from "./middlewares/corelation.middleware"
 
 const app = express() //implicitly app is of type express.Application 
 
@@ -19,10 +20,17 @@ app.use(express.text())
 
 //NOTE - When we are handling the request inside the get function directly be defining the callback here itself, typescript is able to implicitly understand the type of req, res parameter
 
+//adding uuid injection middleware before my request reaches routing layer
+
+app.use(attachCorrelationId)
+
+// VVVIII -> ABOVE THIS LINE ALL MIDDLEWARES ARE PLACED THAT ARE IN THE FLOW BEFORE THE ROUTING LAYER
+
 //connecting my all registered routes to the server/app instance
 app.use('/api/v1', v1router)
 app.use('/api/v2', v2router)
 
+// VVVIII -> BELOW THIS LINE ALL MIDDLEWARES ARE PLACED THAT ARE IN THE FLOW AFTER THE ROUTING LAYER
 
 //we place our custom error handler (if any) right below all the routes and above app.listen to make sure express injects our custom error handler instead of default one at the end of middleware stack.
 

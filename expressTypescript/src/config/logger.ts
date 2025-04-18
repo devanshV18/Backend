@@ -30,4 +30,9 @@ const logger = winston.createLogger({
 //important scenario -> in production, multiole users will be sending req to the server and hence in whatever destination we decide, we are going to have multiple logs coming in the same time from multiple request. that is for example in a file we might have 2 logs from req 1 and the 3 logs from a parallel request req 2 and then from req 3 and so on etc. So how do we segregate the logs for each request ? => we can use the concept of corelation id.
 //corelation id -> A unique id added to every log of a single request which makes them identifiable to a single request and this corelation id is a unique id generated for each request.
 
+//step 1 -> A unique id generator to gen unique ids
+//step 2 -> embed the generated unique id in the current request 
+//how to embed uuid to current req -> lets create a middleware function which is placed before the routing layer kicks in and the middleware accesses the req,res,next of the req as its a middleware, so the middleware fxn can access req object and embed a uuid in it and then call next() to pass the control to the next middleware or more specifically the routing layer. 
+//step 3 -> 
+
 export default logger
