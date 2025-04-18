@@ -2,6 +2,7 @@
 
 import winston from "winston"
 import { getCorrelationId } from "../utils/helpers/request.helpers"
+import DailyRotateFile from "winston-daily-rotate-file"
 
 //create logger function -> we can use a create logger function to create our logger object. How the logger should work will totally depend on the configuration we pass to the create logger function.
 
@@ -27,7 +28,13 @@ const logger = winston.createLogger({
     ),
     //transports is an array to accomodate multiple destinations.
     transports: [
-        new winston.transports.Console()
+        new winston.transports.Console(),
+        new DailyRotateFile({
+            filename: "logs/%DATE%-app.log",
+            datePattern: "YYYY-MM-DD",
+            maxSize: "20m", //maxs size of the log file
+            maxFiles: "14d", //max number of files to keep in terms of trainling days
+        })
     ]
 })
 
